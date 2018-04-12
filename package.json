@@ -1,0 +1,29 @@
+{
+  "name": "vizql",
+  "version": "0.0.0",
+  "description": "Express middleware to visualize sequalize schemas.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aegorenkov/vizql.git"
+  },
+  "keywords": [
+    "schema",
+    "middleware",
+    "express",
+    "sequelize"
+  ],
+  "author": "PEA",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aegorenkov/vizql/issues"
+  },
+  "homepage": "https://github.com/aegorenkov/vizql#readme"
+}
