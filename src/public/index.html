@@ -6,17 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <style>
-    #data-table {
-      border: 1px solid #333;
-    }
-
-    th {
-      border-bottom: 1px solid #333;
-    }
-
-    #data-container {
-      background-color: aquamarine;
-    }
+   {{ style }}
   </style>
   <title>VizQL</title>
 
@@ -28,15 +18,7 @@
 
   </div>
   <script>
-    let data = {
-      'id': Number,
-      'name': String,
-      'something': "A STRING",
-      'something2': "A STRING",
-      'something3': "A STRING",
-      'something13': "A STRING",
-      'something43': "A STRING",
-    }
+    let data = {{ data }}
     let html =
       `<table id="data-table">
   <tr>
@@ -49,7 +31,7 @@
     for (let el in data) {
       let row = document.createElement("tr")
       let delimiter = document.createElement("td")
-      delimiter.innerHTML = el
+      delimiter.innerHTML = data[el]
       row.appendChild(delimiter)
       document.querySelector('#populate').appendChild(row)
     }

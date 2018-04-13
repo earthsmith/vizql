@@ -1,0 +1,11 @@
+ #data-table {
+     border: 1px solid #333;
+ }
+
+ th {
+     border-bottom: 1px solid #333;
+ }
+
+ #data-container {
+     background-color: aquamarine;
+ }
