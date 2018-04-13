@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "test"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/aegorenkov/vizql/issues"
   },
-  "homepage": "https://github.com/aegorenkov/vizql#readme"
+  "homepage": "https://github.com/aegorenkov/vizql#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
