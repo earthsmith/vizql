@@ -12,4 +12,10 @@ const middlewareWrapper = config => {
   return middleware;
 };
 
+let data = {
+  'id': Number,
+  'name': String
+}
+
+
 module.exports = middlewareWrapper;
