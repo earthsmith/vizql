@@ -12,7 +12,7 @@ const convertSchemas = (schema) => {
 
         schemas[modelKey] = columnNames;
     }
-    
+
     return schemas;
 }
 

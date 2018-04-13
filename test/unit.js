@@ -1,6 +1,7 @@
 const schema1 = require('./exampleSchemas.js');
 const expect = require('expect');
 const convertSchemas = require('../src/helpers/convertSchema.js');
+const convertEdges = require('../src/helpers/convertEdges.js');
 
 describe('Schema tests', () => {
   describe('Schema files should run', () => {
@@ -34,6 +35,11 @@ describe('Schema tests', () => {
 
     it('Should convert schema to object.', (done) => {
       convertSchemas(schema1);
+      done();
+    })
+
+    it('Should convert edges to object.', (done) => {
+      convertEdges(schema1);
       done();
     })
   })
