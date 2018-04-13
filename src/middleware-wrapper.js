@@ -1,7 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+const convertSchemas = require('./helpers/convertSchema.js')
 
-const middlewareWrapper = config => {
+const middlewareWrapper = schema => {
   const middleware = (req, res, next) => {
     // TODO: Fill this in if we want to use app.use 
     // to collect data
@@ -9,9 +10,8 @@ const middlewareWrapper = config => {
 
 
   middleware.pageRoute = (req, res) => {
-    let data =
-      ['id', 'First name', 'Last name', 'Email', 'Address']
-
+    let data = convertSchemas(schema)
+    console.log(data)
     const renderedHTML =
       fs.readFileSync(path.join(__dirname, '/public/index.html'))
         .toString()

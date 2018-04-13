@@ -19,22 +19,26 @@
   </div>
   <script>
     let data = {{ data }}
-    let html =
-      `<table id="data-table">
-  <tr>
-    <th>Users</th>
-  </tr>
-<tr id="populate"> </tr>
-</table>`
-    document.querySelector('#data-container').innerHTML = html
+      for (let tablename in data) {
+          let table = document.createElement('table')
+          table.setAttribute("class","table")
+          let th = document.createElement('th')
+          th.innerHTML = tablename
+          let tr = document.createElement('tr')
+          tr.appendChild(th)
+          table.appendChild(tr)
+        document.querySelector('#data-container').appendChild(table)
 
-    for (let el in data) {
-      let row = document.createElement("tr")
-      let delimiter = document.createElement("td")
-      delimiter.innerHTML = data[el]
-      row.appendChild(delimiter)
-      document.querySelector('#populate').appendChild(row)
-    }
+        for (let row in data[tablename]) {
+          console.log(row)
+            let tr = document.createElement("tr")
+            let td = document.createElement("td")
+            td.innerHTML = data[tablename][row]
+            tr.appendChild(td)
+            table.appendChild(tr)
+          }
+      }
+
   </script>
 
 </body>
