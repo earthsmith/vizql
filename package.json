@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/aegorenkov/vizql#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "sequelize": "^4.37.6",
+    "sqlite3": "^4.0.0"
   }
 }
