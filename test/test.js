@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
-const vizql = require('../index.js')()
+let vizql = require('../index.js')
+const exampleDB = require('./exampleSchemas.js')
+vizql = vizql(exampleDB)
 
 app.get('/vizql', vizql.pageRoute)
 
