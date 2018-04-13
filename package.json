@@ -1,6 +1,6 @@
 {
   "name": "vizql",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Express middleware to visualize sequalize schemas.",
   "main": "index.js",
   "directories": {

@@ -17,9 +17,20 @@ Then use it in your [Node.js](http://nodejs.org/) as follows:
 ```javascript
 const express = require('express');
 const app = express();
-const vizql = require('vizql')();
+let vizql = require('vizql');
+const Sequelize = require('sequelize');
+const sqlite3 = require('sqlite3');
+const exampleDB = new Sequelize('mainDB', null, null, {
+    dialect: "sqlite",
+    storage: ':memory:',
+});
+// Add Sequalize models where appropriate
+const User = exampleDB.define('users', {
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  name: Sequelize.STRING
+});
 
-app.get('/vizql', vizql.pageRoute)
+app.get('/vizql', vizql(exampleDb).pageRoute);
 
 app.listen(3000);
 

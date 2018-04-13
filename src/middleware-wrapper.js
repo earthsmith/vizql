@@ -11,7 +11,6 @@ const middlewareWrapper = schema => {
 
   middleware.pageRoute = (req, res) => {
     let data = convertSchemas(schema)
-    console.log(data)
     const renderedHTML =
       fs.readFileSync(path.join(__dirname, '/public/index.html'))
         .toString()
