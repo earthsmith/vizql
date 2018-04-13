@@ -4,12 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
   <style>
     #data-table {
       border: 1px solid #333;
     }
+
     th {
-       border-bottom: 1px solid #333;
+      border-bottom: 1px solid #333;
+    }
+
+    #data-container {
+      background-color: aquamarine;
     }
   </style>
   <title>VizQL</title>
@@ -18,18 +24,37 @@
 
 <body>
   <h3>Test Render</h3>
-  <div id="data-container"></div>
-</body>
-<table id="data-table">
+  <div id="data-container">
+
+  </div>
+  <script>
+    let data = {
+      'id': Number,
+      'name': String,
+      'something': "A STRING",
+      'something2': "A STRING",
+      'something3': "A STRING",
+      'something13': "A STRING",
+      'something43': "A STRING",
+    }
+    let html =
+      `<table id="data-table">
   <tr>
     <th>Users</th>
   </tr>
-  <tr>
-    <td>id</td>
-  </tr>
-  <tr>
-    <td>name</td>
-  </tr>
-</table>
+<tr id="populate"> </tr>
+</table>`
+    document.querySelector('#data-container').innerHTML = html
+
+    for (let el in data) {
+      let row = document.createElement("tr")
+      let delimiter = document.createElement("td")
+      delimiter.innerHTML = el
+      row.appendChild(delimiter)
+      document.querySelector('#populate').appendChild(row)
+    }
+  </script>
+
+</body>
 
 </html>
