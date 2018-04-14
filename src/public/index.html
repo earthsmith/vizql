@@ -20,28 +20,27 @@
 
   </div>
   <script>
-    let data = {{ data }}
-      for (let tablename in data) {
+      let data = {{ data }}
+        for (let tablename in data) {
           let table = document.createElement('table')
-          table.setAttribute("class","table")
+          table.setAttribute("class", "table")
           let th = document.createElement('th')
           th.innerHTML = tablename;
           let tr = document.createElement('tr')
           tr.appendChild(th)
           table.appendChild(tr)
-        document.querySelector('#data-container').appendChild(table)
+          document.querySelector('#data-container').appendChild(table)
 
-        for (let row in data[tablename]) {
+          for (let row in data[tablename]) {
             let tr = document.createElement("tr")
             let td = document.createElement("td")
-            td.innerHTML = data[tablename][row]
+            let dataForRow = data[tablename][row]
+            td.innerHTML = dataForRow['content'] + ' ' + dataForRow['type'] + '&#128273;'.repeat(dataForRow['relation'])
             tr.appendChild(td)
             table.appendChild(tr)
           }
-      }
-    }
-
-  </script>
+        }
+    </script>
 
 </body>
 

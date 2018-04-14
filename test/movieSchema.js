@@ -54,7 +54,7 @@ const tvseries = exampleDB2.define('tvseries', {
   startYear: Sequelize.STRING,
   endYear: Sequelize.STRING
 });
-tvseries.belongsToMany(genre, {through: 'tvgenres'});
+tvseries.belongsToMany(genre, { through: 'tvgenres' });
 //TVSEASONS
 const tvseasons = exampleDB2.define('tvseasons', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
