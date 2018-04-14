@@ -1,5 +1,5 @@
 const schema1 = require('./exampleSchemas.js');
-const schema2 = require('./exampleSchemas2.1.js')
+const schema2 = require('./exampleSchemas2.js')
 const expect = require('expect');
 const convertSchemas = require('../src/helpers/convertSchema.js');
 const convertEdges = require('../src/helpers/convertEdges.js');

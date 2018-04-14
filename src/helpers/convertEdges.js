@@ -9,7 +9,6 @@ const convertEdges = (schema) => {
     for (let modelKey in schema.models) {
         const model = schema.models[modelKey];
         let references = [];
-        console.log(model.rawAttributes)
         for (let attribute in model.rawAttributes) {
             let attrObj = model.rawAttributes[attribute];
             for (let property in attrObj) {
