@@ -13,7 +13,9 @@
 </head>
 
 <body>
-  <h3>VizQL</h3>
+  <div id='header-bar'>
+    <h1>VizQL</h1>
+  </div>
   <div id="data-container">
 
   </div>
@@ -30,7 +32,6 @@
         document.querySelector('#data-container').appendChild(table)
 
         for (let row in data[tablename]) {
-          console.log(row)
             let tr = document.createElement("tr")
             let td = document.createElement("td")
             td.innerHTML = data[tablename][row]

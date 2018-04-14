@@ -1,5 +1,8 @@
-//function that converts schema too object representation
 const Sequelize = require('sequelize');
+
+//using the .models method, traverses down to the properties in the
+//attributes and stores the names of those that have references
+//along with the names of the source tables
 
 const convertEdges = (schema) => {
     let edges = {};
@@ -8,8 +11,8 @@ const convertEdges = (schema) => {
         let references = [];
         for (let attribute in model.rawAttributes) {
             let attrObj = model.rawAttributes[attribute];
-            for (let property in attrObj) {
-                if (property === 'references') {
+            for (let property in attrObj) { 
+                if (property === 'references') { 
                     references.push(attrObj[property]['model']);
                 }
             }
