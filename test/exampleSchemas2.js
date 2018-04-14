@@ -18,7 +18,7 @@ const Item = exampleDB2.define('items', {
 });
 //SHOPPINGCART MODEL
 const ShoppingCart = exampleDB2.define('cart', {
-    numOfitems: Sequelize.INTEGER,
+    numOfItems: Sequelize.INTEGER,
 });
 
 //establishes relationships between the models

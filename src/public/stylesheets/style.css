@@ -1,5 +1,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 h1 {
@@ -23,16 +25,14 @@ table {
     border: 2px solid #333;
     margin: .3rem;
     font-size: 1.10rem;
+    float: left;
+    width: 23%;
 }
 
 th {
     border-bottom: 2px solid #333;
 }
 
- #data-container {
-     display: inline-flex;
- }
-
-h3 {
-    text-align: center;
+#data-container {
+    padding: 1rem;
 }
