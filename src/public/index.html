@@ -25,6 +25,7 @@
           let table = document.createElement('table')
           table.setAttribute("class", "table")
           let th = document.createElement('th')
+          th.setAttribute('colspan',2)
           th.innerHTML = tablename;
           let tr = document.createElement('tr')
           tr.appendChild(th)
@@ -35,9 +36,16 @@
             let tr = document.createElement("tr")
             let td = document.createElement("td")
             let dataForRow = data[tablename][row]
-            td.innerHTML = dataForRow['content'] + ' ' + dataForRow['type'] + '&#128273;'.repeat(dataForRow['relation'])
+            td.innerHTML = dataForRow['content']+ '&#128273;'.repeat(dataForRow['relation'])
             tr.appendChild(td)
+
+            let td2 = document.createElement("td")
+            td2.innerHTML =  dataForRow['type']
+            tr.appendChild(td2)
             table.appendChild(tr)
+
+
+
           }
         }
     </script>
