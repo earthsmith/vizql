@@ -1,5 +1,5 @@
 const schema1 = require('./exampleSchemas.js');
-const schema2 = require('./exampleSchemas2.1.js')
+const schema2 = require('./exampleSchemas2.js')
 const expect = require('expect');
 const convertSchemas = require('../src/helpers/convertSchema.js');
 const convertEdges = require('../src/helpers/convertEdges.js');
@@ -38,8 +38,17 @@ describe('Schema1 tests', () => {
       const columns = convertSchemas(schema1);
       expect(JSON.stringify(columns)).toEqual(
         JSON.stringify({
-          users: ['id', 'name', 'createdAt', 'updatedAt'],
-          posts: ['id', 'votes', 'createdAt', 'updatedAt', 'userId']
+          users:
+            [{ content: 'id', type: 'INTEGER', relation: false },
+            { content: 'name', type: 'STRING', relation: false },
+            { content: 'createdAt', type: 'DATE', relation: false },
+            { content: 'updatedAt', type: 'DATE', relation: false }],
+          posts:
+            [{ content: 'id', type: 'INTEGER', relation: false },
+            { content: 'votes', type: 'INTEGER', relation: false },
+            { content: 'createdAt', type: 'DATE', relation: false },
+            { content: 'updatedAt', type: 'DATE', relation: false },
+            { content: 'userId', type: 'INTEGER', relation: true }]
         })
       );
       done();
