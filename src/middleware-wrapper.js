@@ -8,9 +8,9 @@ const middlewareWrapper = schema => {
     // to collect data
   };
 
-
   middleware.pageRoute = (req, res) => {
-    let data = convertSchemas(schema)
+    // let data = convertSchemas(schema)
+    console.log(data)
     const renderedHTML =
       fs.readFileSync(path.join(__dirname, '/public/index.html'))
         .toString()
@@ -21,6 +21,67 @@ const middlewareWrapper = schema => {
   };
   return middleware;
 };
+
+let data = {
+  users: [
+    {
+      "content": "id",
+      "relation": 0,
+      "type": "Number",
+    },
+    {
+      "content": "name",
+      "relation": 0,
+      "type": "String",
+    },
+    {
+      "content": "createdAt",
+      "relation": 0,
+      "type": "Date",
+    },
+    {
+      "content": "updatedAt",
+      "relation": 0,
+      "type": "Date",
+    },
+  ],
+  items: [
+    {
+      "content": "id",
+      "relation": 0,
+      "type": "Number",
+    },
+    {
+      "content": "description",
+      "relation": 0,
+      "type": "String",
+    },
+    {
+      "content": "createdAt",
+      "relation": 0,
+      "type": "Date",
+    },
+    {
+      "content": "updatedAt",
+      "relation": 0,
+      "type": "Date",
+    },
+    {
+      "content": "cartId",
+      "relation": 1,
+      "type": "Number",
+    },
+    {
+      "content": "userId",
+      "relation": 1,
+      "type": "Number",
+    },
+  ]
+};
+
+
+
+
 
 
 
