@@ -29,10 +29,6 @@ th {
     border-bottom: 2px solid #333;
 }
 
- #data-container {
-     display: inline-flex;
- }
-
-h3 {
-    text-align: center;
+#data-container {
+    display: inline-flex;
 }

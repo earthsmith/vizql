@@ -6,15 +6,16 @@ const Sequelize = require('sequelize');
 const convertSchemas = (schema) => {
     let schemas = {};
     for (let modelKey in schema.models) {
-        const model = schema.models[modelKey]; 
-        let columnNames = []; 
-        for (let attribute in model.rawAttributes) {  
-            columnNames.push(attribute); 
+        const model = schema.models[modelKey];
+        let columnNames = [];
+        for (let attribute in model.rawAttributes) {
+            let dataType = model.rawAttributes[attribute]['type'].constructor.key;
+            columnNames.push({content: attribute, type: dataType});
         }
 
-        schemas[modelKey] = columnNames; 
+        schemas[modelKey] = columnNames;
     }
-
+    
     return schemas;
 }
 
