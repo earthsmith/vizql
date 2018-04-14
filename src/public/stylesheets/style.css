@@ -1,11 +1,20 @@
  #data-table {
      border: 1px solid #333;
  }
+ table {
+  background-color: #9FD8CB;
+  border-radius: 2px;
+  padding: 0.5rem;
+ }
 
  th {
      border-bottom: 1px solid #333;
  }
-
+/* 
  #data-container {
      background-color: aquamarine;
+ } */
+
+ h3 {
+   text-align: center;
  }

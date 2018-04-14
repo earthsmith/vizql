@@ -34,12 +34,21 @@ describe('Schema tests', () => {
     });
 
     it('Should convert schema to object.', (done) => {
-      convertSchemas(schema1);
+      const columns = convertSchemas(schema1);
+      expect(JSON.stringify(columns)).toEqual(
+        JSON.stringify({ 
+          users: [ 'id', 'name', 'createdAt', 'updatedAt'],
+          posts: [ 'id', 'votes', 'createdAt', 'updatedAt', 'userId']
+        })
+      );
       done();
     })
-
+    
     it('Should convert edges to object.', (done) => {
-      convertEdges(schema1);
+      const edges = convertEdges(schema1);
+      expect(JSON.stringify(edges)).toEqual(
+        JSON.stringify({ posts: [ 'users'] })
+      );
       done();
     })
   })
