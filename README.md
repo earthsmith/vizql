@@ -1,6 +1,6 @@
 # VizQL
 
-**Sequelize database schema visualizer.**
+**Sequelize model schema visualizer.**
 
 ## Features
 
@@ -17,7 +17,7 @@ Then use it in your [Node.js](http://nodejs.org/) as follows:
 ```javascript
 const express = require('express');
 const app = express();
-let vizql = require('vizql');
+const vizql = require('vizql');
 const Sequelize = require('sequelize');
 const sqlite3 = require('sqlite3');
 const exampleDB = new Sequelize('mainDB', null, null, {
