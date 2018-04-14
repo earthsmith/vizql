@@ -1,20 +1,38 @@
- #data-table {
-     border: 1px solid #333;
- }
- table {
-  background-color: #9FD8CB;
-  border-radius: 2px;
-  padding: 0.5rem;
- }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
 
- th {
-     border-bottom: 1px solid #333;
- }
-/* 
+h1 {
+    font-size: 3rem;
+    color: white;
+    font-weight: 600;
+    padding-top: .75rem;
+}
+
+#header-bar {
+    background-color: #333;
+    text-align: center;
+    height: 5rem;
+    margin-bottom: 1rem;
+}
+ 
+table {
+    background-color: #9FD8CB;
+    border-radius: 3px;
+    padding: 0.5rem;
+    border: 2px solid #333;
+    margin: .3rem;
+    font-size: 1.10rem;
+}
+
+th {
+    border-bottom: 2px solid #333;
+}
+
  #data-container {
-     background-color: aquamarine;
- } */
-
- h3 {
-   text-align: center;
+     display: inline-flex;
  }
+
+h3 {
+    text-align: center;
+}
