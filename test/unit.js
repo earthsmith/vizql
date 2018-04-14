@@ -38,8 +38,17 @@ describe('Schema1 tests', () => {
       const columns = convertSchemas(schema1);
       expect(JSON.stringify(columns)).toEqual(
         JSON.stringify({
-          users: ['id', 'name', 'createdAt', 'updatedAt'],
-          posts: ['id', 'votes', 'createdAt', 'updatedAt', 'userId']
+          users:
+            [{ content: 'id', type: 'INTEGER', relation: false },
+            { content: 'name', type: 'STRING', relation: false },
+            { content: 'createdAt', type: 'DATE', relation: false },
+            { content: 'updatedAt', type: 'DATE', relation: false }],
+          posts:
+            [{ content: 'id', type: 'INTEGER', relation: false },
+            { content: 'votes', type: 'INTEGER', relation: false },
+            { content: 'createdAt', type: 'DATE', relation: false },
+            { content: 'updatedAt', type: 'DATE', relation: false },
+            { content: 'userId', type: 'INTEGER', relation: true }]
         })
       );
       done();
