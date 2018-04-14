@@ -38,14 +38,11 @@
             let dataForRow = data[tablename][row]
             td.innerHTML = dataForRow['content']+ '&#128273;'.repeat(dataForRow['relation'])
             tr.appendChild(td)
-
+            //adding second column
             let td2 = document.createElement("td")
             td2.innerHTML =  dataForRow['type']
             tr.appendChild(td2)
             table.appendChild(tr)
-
-
-
           }
         }
     </script>

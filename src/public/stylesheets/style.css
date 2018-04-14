@@ -33,16 +33,10 @@ table {
     padding: 0.8rem;
     border: 2px solid #333;
     font-size: 1.10rem;
-    /* float: left; */
     min-width: 23%;
     line-height: 1.7rem;
     word-spacing: 0.5rem;
     margin: 1%;
-}
-
-table+table {
-    /* margin-right: .3rem; */
-    /* margin-left: 2%; */
 }
 
 th {
@@ -56,5 +50,4 @@ th {
     margin: auto;
     width: 85%;
     flex-wrap: wrap;
-    /* background-color: blue; */
 }
