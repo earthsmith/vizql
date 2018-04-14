@@ -8,7 +8,6 @@ const middlewareWrapper = schema => {
     // to collect data
   };
 
-
   middleware.pageRoute = (req, res) => {
     let data = convertSchemas(schema)
     const renderedHTML =
@@ -21,6 +20,9 @@ const middlewareWrapper = schema => {
   };
   return middleware;
 };
+
+
+
 
 
 

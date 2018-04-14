@@ -17,7 +17,7 @@ describe('Schema1 tests', () => {
         .then(function (err) {
           if (err) console.log('An error occured while creating the table', err);
           return schema1.models['users']
-            .create({name: 'Hancock'})
+            .create({ name: 'Hancock' })
             .then(() => done());
         }).catch(function (err) {
           if (err) console.log(err);
@@ -37,18 +37,18 @@ describe('Schema1 tests', () => {
     it('Should convert schema to object.', (done) => {
       const columns = convertSchemas(schema1);
       expect(JSON.stringify(columns)).toEqual(
-        JSON.stringify({ 
-          users: [ 'id', 'name', 'createdAt', 'updatedAt'],
-          posts: [ 'id', 'votes', 'createdAt', 'updatedAt', 'userId']
+        JSON.stringify({
+          users: ['id', 'name', 'createdAt', 'updatedAt'],
+          posts: ['id', 'votes', 'createdAt', 'updatedAt', 'userId']
         })
       );
       done();
     })
-    
+
     it('Should convert edges to object.', (done) => {
       const edges = convertEdges(schema1);
       expect(JSON.stringify(edges)).toEqual(
-        JSON.stringify({ posts: [ 'users'] })
+        JSON.stringify({ posts: ['users'] })
       );
       done();
     })
@@ -68,7 +68,7 @@ describe('Schema2 tests', () => {
         .then(function (err) {
           if (err) console.log('An error occured while creating the table', err);
           return schema2.models['users']
-            .create({name: 'Hancock'})
+            .create({ name: 'Hancock' })
             .then(() => done());
         }).catch(function (err) {
           if (err) console.log(err);
