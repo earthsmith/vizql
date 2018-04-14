@@ -33,11 +33,6 @@ th {
     border-bottom: 2px solid #333;
 }
 
- #data-container {
-   padding: 1rem;
-     /* display: inline-flex; */
- }
-
-h3 {
-    text-align: center;
+#data-container {
+    padding: 1rem;
 }
