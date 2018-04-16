@@ -17,9 +17,76 @@
     <h1>VizQL</h1>
   </div>
   <div id="data-container">
-
   </div>
+  
+  <svg id="svg">
+      
+  </svg>
   <script>
+     const getCoords = (element, position) => {
+        const { top, left, width, height } = element.getBoundingClientRect();
+        let point;
+        switch (position) {
+          case "top left":
+            point = {
+              x: left + window.pageXOffset,
+              y: top + window.pageYOffset
+            };
+            break;
+          case "top center":
+            point = {
+              x: left + width / 2 + window.pageXOffset,
+              y: top + window.pageYOffset
+            };
+            break;
+          case "top right":
+            point = {
+              x: left + width + window.pageXOffset,
+              y: top + window.pageYOffset
+            };
+            break;
+          case "center left":
+            point = {
+              x: left + window.pageXOffset,
+              y: top + height / 2 + window.pageYOffset
+            };
+            break;
+          case "center":
+            point = {
+              x: left + width / 2 + window.pageXOffset,
+              y: top + height / 2 + window.pageYOffset
+            };
+            break;
+          case "center right":
+            point = {
+              x: left + width + window.pageXOffset,
+              y: top + height / 2 + window.pageYOffset
+            };
+            break;
+          case "bottom left":
+            point = {
+              x: left + window.pageXOffset,
+              y: top + height + window.pageYOffset
+            };
+            break;
+          case "bottom center":
+            point = {
+              x: left + width / 2 + window.pageXOffset,
+              y: top + height + window.pageYOffset
+            };
+            break;
+          case "bottom right":
+            point = {
+              x: left + width + window.pageXOffset,
+              y: top + height + window.pageYOffset
+            };
+            break;
+        }
+        return point;
+      };
+
+      let svgs = document.getElementById("svg");
+
       let data = {{ data }}
         for (let tablename in data) {
           let table = document.createElement('table')
@@ -36,7 +103,12 @@
             let tr = document.createElement("tr")
             let td = document.createElement("td")
             let dataForRow = data[tablename][row]
-            td.innerHTML = dataForRow['content']+ '&#128273;'.repeat(dataForRow['relation'])
+            if(dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0,-1))
+            td.innerHTML = dataForRow['content']
+            if (dataForRow.relation) {
+              td.innerHTML += '&#128273'
+              td.setAttribute("relation", dataForRow['content'].slice(0, -2))
+            }
             tr.appendChild(td)
             //adding second column
             let td2 = document.createElement("td")
@@ -44,6 +116,29 @@
             tr.appendChild(td2)
             table.appendChild(tr)
           }
+        }
+
+      let tables = document.querySelectorAll('[draw]');
+
+        Array.prototype.forEach.call(tables, table => {
+          let tabelName = table.attributes[0].value;
+          let referenced = document.querySelectorAll(`[relation=${tabelName}]`);
+          if (referenced.length > 0) {
+            for (let i = 0; i < referenced.length; i++) {
+              let parent = getCoords(table, "center right");
+              let dependent = getCoords(referenced[i], "center left");
+              svgs.appendChild(drawLine(parent, dependent));
+            }
+          }
+        })
+        
+        function drawLine (p, d) {
+          let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute("x1", `${p.x}`)
+          line.setAttribute("y1", `${p.y}`)
+          line.setAttribute("x2", `${d.x}`)
+          line.setAttribute("y2", `${d.y}`);
+          return line;
         }
     </script>
 
