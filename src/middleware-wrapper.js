@@ -14,7 +14,7 @@ const middlewareWrapper = schema => {
       fs.readFileSync(path.join(__dirname, '/public/index.html'))
         .toString()
         .replace(/{{ data }}/g, JSON.stringify(data))
-        .replace(/{{ style }}/g, fs.readFileSync(path.join(__dirname, '/public/stylesheets/style.css')))
+        .replace(/{{ style }}/g, fs.readFileSync(path.join(__dirname, '/public/stylesheets/test.css')))
     res.send(renderedHTML);
 
   };

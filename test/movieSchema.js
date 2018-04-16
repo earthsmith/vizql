@@ -22,7 +22,7 @@ const movie = exampleDB2.define('movies', {
 
 
 // CHARACTER
-const character = exampleDB2.define('character', {
+const character = exampleDB2.define('characters', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   characterName: Sequelize.STRING
 });
