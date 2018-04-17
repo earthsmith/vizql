@@ -12,179 +12,185 @@
 
 </head>
 
-<body>
+<body onresize="drawLines()">
   <div id='header-bar'>
     <h1>VizQL</h1>
   </div>
   <div id="data-container">
   </div>
-  
+
   <svg id="svg">
-      
+
   </svg>
   <script>
-     const getCoords = (element, position) => {
-        const { top, left, width, height } = element.getBoundingClientRect();
-        let point;
-        switch (position) {
-          case "top left":
-            point = {
-              x: left + window.pageXOffset,
-              y: top + window.pageYOffset
-            };
-            break;
-          case "top center":
-            point = {
-              x: left + width / 2 + window.pageXOffset,
-              y: top + window.pageYOffset
-            };
-            break;
-          case "top right":
-            point = {
-              x: left + width + window.pageXOffset,
-              y: top + window.pageYOffset
-            };
-            break;
-          case "center left":
-            point = {
-              x: left + window.pageXOffset,
-              y: top + height / 2 + window.pageYOffset
-            };
-            break;
-          case "center":
-            point = {
-              x: left + width / 2 + window.pageXOffset,
-              y: top + height / 2 + window.pageYOffset
-            };
-            break;
-          case "center right":
-            point = {
-              x: left + width + window.pageXOffset,
-              y: top + height / 2 + window.pageYOffset
-            };
-            break;
-          case "bottom left":
-            point = {
-              x: left + window.pageXOffset,
-              y: top + height + window.pageYOffset
-            };
-            break;
-          case "bottom center":
-            point = {
-              x: left + width / 2 + window.pageXOffset,
-              y: top + height + window.pageYOffset
-            };
-            break;
-          case "bottom right":
-            point = {
-              x: left + width + window.pageXOffset,
-              y: top + height + window.pageYOffset
-            };
-            break;
+
+    const getCoords = (element, position) => {
+      const { top, left, width, height } = element.getBoundingClientRect();
+      let point;
+      switch (position) {
+        case "top left":
+          point = {
+            x: left + window.pageXOffset,
+            y: top + window.pageYOffset
+          };
+          break;
+        case "top center":
+          point = {
+            x: left + width / 2 + window.pageXOffset,
+            y: top + window.pageYOffset
+          };
+          break;
+        case "top right":
+          point = {
+            x: left + width + window.pageXOffset,
+            y: top + window.pageYOffset
+          };
+          break;
+        case "center left":
+          point = {
+            x: left + window.pageXOffset,
+            y: top + height / 2 + window.pageYOffset
+          };
+          break;
+        case "center":
+          point = {
+            x: left + width / 2 + window.pageXOffset,
+            y: top + height / 2 + window.pageYOffset
+          };
+          break;
+        case "center right":
+          point = {
+            x: left + width + window.pageXOffset,
+            y: top + height / 2 + window.pageYOffset
+          };
+          break;
+        case "bottom left":
+          point = {
+            x: left + window.pageXOffset,
+            y: top + height + window.pageYOffset
+          };
+          break;
+        case "bottom center":
+          point = {
+            x: left + width / 2 + window.pageXOffset,
+            y: top + height + window.pageYOffset
+          };
+          break;
+        case "bottom right":
+          point = {
+            x: left + width + window.pageXOffset,
+            y: top + height + window.pageYOffset
+          };
+          break;
+      }
+      return point;
+    };
+    let svgs = document.getElementById("svg");
+
+    let data = {{ data }}
+    for (let tablename in data) {
+      let table = document.createElement('table')
+      table.setAttribute("class", "table")
+      let th = document.createElement('th')
+      th.setAttribute('colspan', 2)
+      th.innerHTML = tablename;
+      let tr = document.createElement('tr')
+      tr.appendChild(th)
+      table.appendChild(tr)
+      document.querySelector('#data-container').appendChild(table)
+
+      for (let row in data[tablename]) {
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let dataForRow = data[tablename][row]
+        if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
+        td.innerHTML = dataForRow['content']
+        if (dataForRow.relation) {
+          td.innerHTML += '&#128273'
+          td.setAttribute("relation", dataForRow['content'].slice(0, -2))
         }
-        return point;
-      };
+        tr.appendChild(td)
+        //adding second column
+        let td2 = document.createElement("td")
+        td2.innerHTML = dataForRow['type']
+        tr.appendChild(td2)
+        table.appendChild(tr)
+      }
+    }
 
-      let svgs = document.getElementById("svg");
+    let tables = document.querySelectorAll('[draw]');
 
-      let data = {{ data }}
-      console.log(data)
-        for (let tablename in data) {
-          let table = document.createElement('table')
-          table.setAttribute("class", "table")
-          let th = document.createElement('th')
-          th.setAttribute('colspan',2)
-          th.innerHTML = tablename;
-          let tr = document.createElement('tr')
-          tr.appendChild(th)
-          table.appendChild(tr)
-          document.querySelector('#data-container').appendChild(table)
 
-          for (var i = 1; i < data[tablename].length; i++){
-            let tr = document.createElement("tr")
-            let td = document.createElement("td")
-            let dataForRow = data[tablename][i]
-            if(dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0,-1))
-            td.innerHTML = dataForRow['content']
-            if (dataForRow.relation) {
-              td.innerHTML += '&#128273'
-              td.setAttribute("relation", dataForRow['content'].slice(0, -2))
-            }
-            tr.appendChild(td)
-            //adding second column
-            let td2 = document.createElement("td")
-            td2.innerHTML =  dataForRow['type']
-            tr.appendChild(td2)
-            table.appendChild(tr)
+    function drawLines() {
+      var myNode = document.getElementById("svg");
+      while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+      }
+      Array.prototype.forEach.call(tables, table => {
+        let tableName = table.attributes[0].value;
+        let referenced = document.querySelectorAll(`[relation=${tableName}]`);
+        if (referenced.length > 0) {
+          for (let i = 0; i < referenced.length; i++) {
+            let parent = getCoords(table, "center left");
+            let dependent = getCoords(referenced[i], "center left");
+            svgs.appendChild(drawLine1(parent, dependent));
+            svgs.appendChild(drawLine2(parent, dependent));
+            svgs.appendChild(drawLine3(parent, dependent));
+            svgs.appendChild(drawLine4(parent, dependent));
+            svgs.appendChild(drawLine5(parent, dependent));
           }
         }
+      })
+    }
+    window.addEventListener("resize", drawLines());
+    function offSetFunc(obj, num) {
+      let temp = parseInt(obj) + num
+      return temp.toString()
+    }
 
-      let tables = document.querySelectorAll('[draw]');
+    function drawLine1(p, d) {
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute("x1", offSetFunc(`${p.x}`, -10))
+      line.setAttribute("y1", `${p.y}`)
+      line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
+      line.setAttribute("y2", `${p.y}`);
 
-        Array.prototype.forEach.call(tables, table => {
-          let tableName = table.attributes[0].value;
-          let referenced = document.querySelectorAll(`[relation=${tableName}]`);
-          if (referenced.length > 0) {
-            for (let i = 0; i < referenced.length; i++) {
-              let parent = getCoords(table, "center left");
-              let dependent = getCoords(referenced[i], "center left");
-              svgs.appendChild(drawLine1(parent, dependent));
-              svgs.appendChild(drawLine2(parent, dependent));
-              svgs.appendChild(drawLine3(parent, dependent));
-              svgs.appendChild(drawLine4(parent, dependent));
-              svgs.appendChild(drawLine5(parent, dependent));
-            }
-          }
-        })
+      return line;
+    }
+    function drawLine2(p, d) {
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
+      line.setAttribute("y1", `${p.y}`)
+      line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
+      line.setAttribute("y2", offSetFunc(`${d.y}`, 60));
+      return line;
+    }
+    function drawLine3(p, d) {
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
+      line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
+      line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
+      line.setAttribute("y2", offSetFunc(`${d.y}`, 60))
+      return line;
+    }
+    function drawLine4(p, d) {
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
+      line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
+      line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
+      line.setAttribute("y2", `${d.y}`)
+      return line;
+    }
+    function drawLine5(p, d) {
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
+      line.setAttribute("y1", `${d.y}`)
+      line.setAttribute("x2", offSetFunc(`${d.x}`, -10))
+      line.setAttribute("y2", `${d.y}`)
+      return line;
+    }
+  </script>
 
-         function offsetFunc(obj, num) {
-            let temp = parseInt(obj) + num
-            return temp.toString()
-          }
-
-          function drawLine1(p, d) {
-            let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", `${p.x}`)
-            line.setAttribute("y1", `${p.y}`)
-            line.setAttribute("x2", offsetFunc(`${p.x}`, -20))
-            line.setAttribute("y2", `${p.y}`);
-
-            return line;
-          }
-          function drawLine2(p, d) {
-            let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${p.x}`, -20))
-            line.setAttribute("y1", `${p.y}`)
-            line.setAttribute("x2", offsetFunc(`${p.x}`, -20))
-            line.setAttribute("y2", offsetFunc(`${d.y}`, 60));
-            return line;
-          }
-          function drawLine3(p, d) {
-            let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${p.x}`, -20))
-            line.setAttribute("y1", offsetFunc(`${d.y}`, 60))
-            line.setAttribute("x2", offsetFunc(`${d.x}`, -20))
-            line.setAttribute("y2", offsetFunc(`${d.y}`, 60))
-            return line;
-          }
-          function drawLine4(p, d) {
-            let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${d.x}`, -20))
-            line.setAttribute("y1", offsetFunc(`${d.y}`, 60))
-            line.setAttribute("x2", offsetFunc(`${d.x}`,-20))
-            line.setAttribute("y2", `${d.y}`)
-            return line;
-          }
-          function drawLine5(p, d) {
-            let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${d.x}`, -20))
-            line.setAttribute("y1", `${d.y}`)
-            line.setAttribute("x2", `${d.x}`)
-            line.setAttribute("y2", `${d.y}`)
-            return line;
-          }
-        </script>
- 
 </body>
 
 </html>
