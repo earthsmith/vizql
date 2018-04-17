@@ -88,6 +88,7 @@
       let svgs = document.getElementById("svg");
 
       let data = {{ data }}
+      console.log(data)
         for (let tablename in data) {
           let table = document.createElement('table')
           table.setAttribute("class", "table")
@@ -99,10 +100,10 @@
           table.appendChild(tr)
           document.querySelector('#data-container').appendChild(table)
 
-          for (let row in data[tablename]) {
+          for (var i = 1; i < data[tablename].length; i++){
             let tr = document.createElement("tr")
             let td = document.createElement("td")
-            let dataForRow = data[tablename][row]
+            let dataForRow = data[tablename][i]
             if(dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0,-1))
             td.innerHTML = dataForRow['content']
             if (dataForRow.relation) {
