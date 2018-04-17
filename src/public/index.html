@@ -85,12 +85,14 @@
         return point;
       };
 
-      let svgs = document.getElementById("svg");
+      let svgs = document.getElementById("svg")
 
       let data = {{ data }}
+      console.log(data)
         for (let tablename in data) {
           let table = document.createElement('table')
           table.setAttribute("class", "table")
+          table.setAttribute("tableName", tablename)
           let th = document.createElement('th')
           th.setAttribute('colspan',2)
           th.innerHTML = tablename;
@@ -127,11 +129,11 @@
             for (let i = 0; i < referenced.length; i++) {
               let parent = getCoords(table, "center right");
               let dependent = getCoords(referenced[i], "center left");
-              svgs.appendChild(drawLine(parent, dependent));
+              drawLine(parent, dependent, svgs);
             }
           }
         })
-        
+
         function drawLine (p, d) {
           let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
           line.setAttribute("x1", `${p.x}`)
@@ -140,6 +142,36 @@
           line.setAttribute("y2", `${d.y}`);
           return line;
         }
+
+  
+
+  Array.prototype.forEach.call(tables, node => {
+    node.addEventListener("mouseenter", e => {
+      showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
+    })
+    node.addEventListener("mouseleave", e => {
+      setNodesOpacity(1);
+    })
+  })
+
+  function showRelatingTables (tableName, tableNode) {
+    setNodesOpacity(.5);
+
+    let node = document.querySelectorAll(`table[tableName=${tableName}]`)[0].style.opacity = '1';
+    let table = data[tableName]
+    for (let row in table) {
+      let obj = table[row];
+
+      let relation = obj.relation;
+      if (relation !== false) document.querySelectorAll(`table[tableName=${relation.model}]`)[0].style.opacity = '1';
+    }
+  }
+
+  function setNodesOpacity (units) {
+    Array.prototype.forEach.call(tables, node => {
+      node.style.opacity = `${units}`;
+    });
+  }
     </script>
 
 </body>
