@@ -36,12 +36,16 @@ th {
 }
 
 #data-container {
-    display: flex;
+    display: grid;
     align-content: center;
     padding: 1rem;
     margin: 3%;
     width: 80%;
-    flex-wrap: wrap;
+    grid-template-columns: 20% 20% 20% 20%;
+    grid-template-rows: auto;
+    justify-content: space-between;
+    grid-column-gap: 10%;
+    grid-row-gap: 50px;
 }
 
 #svg {
