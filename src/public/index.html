@@ -136,49 +136,49 @@
           }
         })
 
-         function offsetFunc(obj, num) {
+         function offSetFunc(obj, num) {
             let temp = parseInt(obj) + num
             return temp.toString()
           }
 
           function drawLine1(p, d) {
             let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", `${p.x}`)
+            line.setAttribute("x1", offSetFunc(`${p.x}`,-10))
             line.setAttribute("y1", `${p.y}`)
-            line.setAttribute("x2", offsetFunc(`${p.x}`, -20))
+            line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
             line.setAttribute("y2", `${p.y}`);
 
             return line;
           }
           function drawLine2(p, d) {
             let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${p.x}`, -20))
+            line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
             line.setAttribute("y1", `${p.y}`)
-            line.setAttribute("x2", offsetFunc(`${p.x}`, -20))
-            line.setAttribute("y2", offsetFunc(`${d.y}`, 60));
+            line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
+            line.setAttribute("y2", offSetFunc(`${d.y}`, 60));
             return line;
           }
           function drawLine3(p, d) {
             let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${p.x}`, -20))
-            line.setAttribute("y1", offsetFunc(`${d.y}`, 60))
-            line.setAttribute("x2", offsetFunc(`${d.x}`, -20))
-            line.setAttribute("y2", offsetFunc(`${d.y}`, 60))
+            line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
+            line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
+            line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
+            line.setAttribute("y2", offSetFunc(`${d.y}`, 60))
             return line;
           }
           function drawLine4(p, d) {
             let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${d.x}`, -20))
-            line.setAttribute("y1", offsetFunc(`${d.y}`, 60))
-            line.setAttribute("x2", offsetFunc(`${d.x}`,-20))
+            line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
+            line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
+            line.setAttribute("x2", offSetFunc(`${d.x}`,-30))
             line.setAttribute("y2", `${d.y}`)
             return line;
           }
           function drawLine5(p, d) {
             let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute("x1", offsetFunc(`${d.x}`, -20))
+            line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
             line.setAttribute("y1", `${d.y}`)
-            line.setAttribute("x2", `${d.x}`)
+            line.setAttribute("x2", offSetFunc(`${d.x}`,-10))
             line.setAttribute("y2", `${d.y}`)
             return line;
           }
