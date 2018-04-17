@@ -121,8 +121,8 @@
       let tables = document.querySelectorAll('[draw]');
 
         Array.prototype.forEach.call(tables, table => {
-          let tabelName = table.attributes[0].value;
-          let referenced = document.querySelectorAll(`[relation=${tabelName}]`);
+          let tableName = table.attributes[0].value;
+          let referenced = document.querySelectorAll(`[relation=${tableName}]`);
           if (referenced.length > 0) {
             for (let i = 0; i < referenced.length; i++) {
               let parent = getCoords(table, "center right");
