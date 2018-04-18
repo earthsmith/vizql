@@ -88,7 +88,18 @@
   let svgs = document.getElementById("svg");
   let refCount = {{ refCount }};
   let data = {{ data }};
-  for (let tablename in data) {
+  var count = 1;
+  for (let i = 0; i < refCount.length; i++) {
+    var tablename = refCount[i][0];
+    var tableCount = refCount[i][1];
+    if (refCount[i - 1] !== undefined && tableCount < refCount[i - 1][1] && count !== 1) {
+      for (var counter = 0; counter <= 4 - count; counter++) {
+        let table1 = document.createElement('h1')
+        document.querySelector('#data-container').appendChild(table1)
+      }
+      count = 4;
+    }
+
     let table = document.createElement('table')
     table.setAttribute("class", "table")
     table.setAttribute("tableName", tablename)
@@ -117,17 +128,19 @@
       tr.appendChild(td2)
       table.appendChild(tr)
     }
+    count = count % 4;
+    count++;
   }
   let toggle = false
   let tables = document.getElementsByClassName(['table'])
   Array.prototype.forEach.call(tables, node => {
     node.addEventListener("click", e => {
-      if(toggle === false){
+      if (toggle === false) {
         showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
         toggle = true
       }
-      else{ 
-        setNodesOpacity(1) 
+      else {
+        setNodesOpacity(1)
         toggle = false
       }
     })
