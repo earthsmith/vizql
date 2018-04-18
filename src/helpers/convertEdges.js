@@ -5,20 +5,21 @@ const Sequelize = require('sequelize');
 //along with the names of the source tables
 
 const convertEdges = (schema) => {
-    let edges = {};
+    let edges = [];
     for (let modelKey in schema.models) {
         const model = schema.models[modelKey];
-        let references = [];
+        let count = 0;
         for (let attribute in model.rawAttributes) {
-            let attrObj = model.rawAttributes[attribute];
-            for (let property in attrObj) {
-                if (property === 'references') {
-                    references.push(attrObj[property]['model']);
-                }
-            }
+            if (model.rawAttributes[attribute]['references']) count++
         }
-        if (references.length) edges[modelKey] = references;
+        edges.push([modelKey, count]);
+
     }
+
+    edges.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+    // console.log(edges);
     return edges;
 }
 
