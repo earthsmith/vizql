@@ -15,6 +15,7 @@
 <body onresize="drawLines()">
   <div id='header-bar'>
     <h1>VizQL</h1>
+    <input id="colorInput" style="margin-bottom: 10px" placeholder="#000 table color"></input>
   </div>
   <div id="data-container">
   </div>
@@ -173,6 +174,32 @@
     });
   }
 
+  function setNodesProperty (prop, value) {
+    Array.prototype.forEach.call(tables, node => {
+      node.style[prop] = `${value}`;
+    });
+  }
+
+  const colorInput = document.getElementById('colorInput');
+  colorInput.addEventListener('keydown', e => {
+    if (e.keyCode === 13) {
+      const input = getColorInput();
+      if (typeof input === 'string') setNodesProperty('backgroundColor', input);
+    }
+  })
+
+  function getColorInput () {
+    const str = colorInput.value;
+    if (isHexCode(str)) return str;
+    else alert('Hex code is not properly formatted')
+  }
+
+  function isHexCode (str) {
+    const l = str.length;
+
+    return str[0] === '#' && (l === 4 || l === 7);
+  }
+    
   let tableId = document.querySelectorAll('[draw]');
   function drawLines() {
     var myNode = document.getElementById("svg");
