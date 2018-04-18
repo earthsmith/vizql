@@ -24,216 +24,142 @@
   </svg>
   <script>
 
-  const getCoords = (element, position) => {
-    const { top, left, width, height } = element.getBoundingClientRect();
-    let point;
-    switch (position) {
-      case "top left":
-        point = {
-          x: left + window.pageXOffset,
-          y: top + window.pageYOffset
-        };
-        break;
-      case "top center":
-        point = {
-          x: left + width / 2 + window.pageXOffset,
-          y: top + window.pageYOffset
-        };
-        break;
-      case "top right":
-        point = {
-          x: left + width + window.pageXOffset,
-          y: top + window.pageYOffset
-        };
-        break;
-      case "center left":
-        point = {
-          x: left + window.pageXOffset,
-          y: top + height / 2 + window.pageYOffset
-        };
-        break;
-      case "center":
-        point = {
-          x: left + width / 2 + window.pageXOffset,
-          y: top + height / 2 + window.pageYOffset
-        };
-        break;
-      case "center right":
-        point = {
-          x: left + width + window.pageXOffset,
-          y: top + height / 2 + window.pageYOffset
-        };
-        break;
-      case "bottom left":
-        point = {
-          x: left + window.pageXOffset,
-          y: top + height + window.pageYOffset
-        };
-        break;
-      case "bottom center":
-        point = {
-          x: left + width / 2 + window.pageXOffset,
-          y: top + height + window.pageYOffset
-        };
-        break;
-      case "bottom right":
-        point = {
-          x: left + width + window.pageXOffset,
-          y: top + height + window.pageYOffset
-        };
-        break;
-    }
-    return point;
-  };
-  let svgs = document.getElementById("svg");
-  let refCount = {{ refCount }};
-  let data = {{ data }};
-  var count = 1;
-  for (let i = 0; i < refCount.length; i++) {
-    var tablename = refCount[i][0];
-    var tableCount = refCount[i][1];
-    if (refCount[i - 1] !== undefined && tableCount < refCount[i - 1][1] && count !== 1) {
-      for (var counter = 0; counter <= 4 - count; counter++) {
-        let table1 = document.createElement('h1')
-        document.querySelector('#data-container').appendChild(table1)
-      }
-      count = 4;
-    }
+	const getCoords = (element, position) => {
+		const { top, left, width, height } = element.getBoundingClientRect();
+		let point;
+		switch (position) {
+			case "center left":
+				point = {
+					x: left + window.pageXOffset - 2,
+					y: top + height / 2 + window.pageYOffset
+				};
+				break;
+				break;
+			case "center right":
+				point = {
+					x: left + width + window.pageXOffset + 2,
+					y: top + height / 2 + window.pageYOffset
+				};
+				break;
+		}
+		return point;
+	};
+	let svgs = document.getElementById("svg");
+	let refCount = {{ refCount }};
+	let data = {{ data }};
+	var count = 1;
+	for (let i = 0; i < refCount.length; i++) {
+		var tablename = refCount[i][0];
+		var tableCount = refCount[i][1];
+		if (refCount[i - 1] !== undefined && tableCount < refCount[i - 1][1] && count !== 1) {
+			for (var counter = 0; counter <= 4 - count; counter++) {
+				let table1 = document.createElement('h1')
+				document.querySelector('#data-container').appendChild(table1)
+			}
+			count = 4;
+		}
 
-    let table = document.createElement('table')
-    table.setAttribute("class", "table")
-    table.setAttribute("tableName", tablename)
-    let th = document.createElement('th')
-    th.setAttribute('colspan', 2)
-    th.innerHTML = tablename;
-    let tr = document.createElement('tr')
-    tr.appendChild(th)
-    table.appendChild(tr)
-    document.querySelector('#data-container').appendChild(table)
+		let table = document.createElement('table')
+		table.setAttribute("class", "table")
+		table.setAttribute("tableName", tablename)
+		let th = document.createElement('th')
+		th.setAttribute('colspan', 2)
+		th.innerHTML = tablename;
+		let tr = document.createElement('tr')
+		tr.appendChild(th)
+		table.appendChild(tr)
+		document.querySelector('#data-container').appendChild(table)
 
-    for (var row in data[tablename]) {
-      let tr = document.createElement("tr")
-      let td = document.createElement("td")
-      let dataForRow = data[tablename][row]
-      if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
-      td.innerHTML = dataForRow['content']
-      if (dataForRow.relation) {
-        td.innerHTML += '&#128273'
-        td.setAttribute("relation", dataForRow['content'].slice(0, -2))
-      }
-      tr.appendChild(td)
-      //adding second column
-      let td2 = document.createElement("td")
-      td2.innerHTML = dataForRow['type']
-      tr.appendChild(td2)
-      table.appendChild(tr)
-    }
-    count = count % 4;
-    count++;
-  }
-  let toggle = false
-  let tables = document.getElementsByClassName(['table'])
-  Array.prototype.forEach.call(tables, node => {
-    node.addEventListener("click", e => {
-      if (toggle === false) {
-        showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
-        toggle = true
-      }
-      else {
-        setNodesOpacity(1)
-        toggle = false
-      }
-    })
-  })
+		for (var row in data[tablename]) {
+			let tr = document.createElement("tr")
+			let td = document.createElement("td")
+			let dataForRow = data[tablename][row]
+			if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
+			td.innerHTML = dataForRow['content']
+			if (dataForRow.relation) {
+				td.innerHTML += '&#128273'
+				td.setAttribute("relation", dataForRow['content'].slice(0, -2))
+			}
+			tr.appendChild(td)
+			//adding second column
+			let td2 = document.createElement("td")
+			td2.innerHTML = dataForRow['type']
+			tr.appendChild(td2)
+			table.appendChild(tr)
+		}
+		count = count % 4;
+		count++;
+	}
+	let toggle = false
+	let tables = document.getElementsByClassName(['table'])
+	Array.prototype.forEach.call(tables, node => {
+		node.addEventListener("click", e => {
+			if (toggle === false) {
+				showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
+				toggle = true
+			}
+			else {
+				setNodesOpacity(1)
+				toggle = false
+			}
+		})
+	})
 
-  function showRelatingTables(tableName, tableNode) {
-    setNodesOpacity(.5);
+	function showRelatingTables(tableName, tableNode) {
+		setNodesOpacity(.5);
 
-    let node = document.querySelectorAll(`table[tableName=${tableName}]`)[0].style.opacity = '1';
-    let table = data[tableName]
-    for (let row in table) {
-      let obj = table[row];
+		let node = document.querySelectorAll(`table[tableName=${tableName}]`)[0].style.opacity = '1';
+		let table = data[tableName]
+		for (let row in table) {
+			let obj = table[row];
 
-      let relation = obj.relation;
-      if (relation !== false) document.querySelectorAll(`table[tableName=${relation.model}]`)[0].style.opacity = '1';
-    }
-  }
-  //this forEach loop not functionning with new version of object passed
-  function setNodesOpacity(units) {
-    Array.prototype.forEach.call(tables, node => {
-      node.style.opacity = `${units}`;
-    });
-  }
+			let relation = obj.relation;
+			if (relation !== false) document.querySelectorAll(`table[tableName=${relation.model}]`)[0].style.opacity = '1';
+		}
+	}
+	function setNodesOpacity(units) {
+		Array.prototype.forEach.call(tables, node => {
+			node.style.opacity = `${units}`;
+		});
+	}
 
-  let tableId = document.querySelectorAll('[draw]');
-  function drawLines() {
-    var myNode = document.getElementById("svg");
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
-    }
-    Array.prototype.forEach.call(tableId, table => {
-      let tableName = table.attributes[0].value;
-      let referenced = document.querySelectorAll(`[relation=${tableName}]`);
-      if (referenced.length > 0) {
-        for (let i = 0; i < referenced.length; i++) {
-          let parent = getCoords(table, "center left");
-          let dependent = getCoords(referenced[i], "center left");
-          svgs.appendChild(drawLine1(parent, dependent));
-          svgs.appendChild(drawLine2(parent, dependent));
-          svgs.appendChild(drawLine3(parent, dependent));
-          svgs.appendChild(drawLine4(parent, dependent));
-          svgs.appendChild(drawLine5(parent, dependent));
-        }
-      }
-    })
-  }
-  window.addEventListener("resize", drawLines());
-  function offSetFunc(obj, num) {
-    let temp = parseInt(obj) + num
-    return temp.toString()
-  }
+	let tableId = document.querySelectorAll('[draw]');
+	function drawLines() {
+		var myNode = document.getElementById("svg");
+		while (myNode.firstChild) {
+			myNode.removeChild(myNode.firstChild);
+		}
+		Array.prototype.forEach.call(tableId, table => {
+			let tableName = table.attributes[0].value;
+			let referenced = document.querySelectorAll(`[relation=${tableName}]`);
+			if (referenced.length > 0) {
+				for (let i = 0; i < referenced.length; i++) {
+					let p = getCoords(table, "center left");
+					let d = getCoords(referenced[i], "center left");
+					svgs.appendChild(drawLine(p.x, p.y, offSetFunc(p.x, -30), p.y));
+					svgs.appendChild(drawLine(offSetFunc(p.x, -30), p.y, offSetFunc(p.x, -30), offSetFunc(d.y, 60)));
+					svgs.appendChild(drawLine(offSetFunc(p.x, -30), offSetFunc(d.y, 60), offSetFunc(d.x, -30), offSetFunc(d.y, 60)));
+					svgs.appendChild(drawLine(offSetFunc(d.x, -30), offSetFunc(d.y, 60), offSetFunc(d.x, -30), d.y))
+					svgs.appendChild(drawLine(offSetFunc(d.x, -30), d.y, d.x, d.y))
+				}
+			}
+		})
+	}
 
-  function drawLine1(p, d) {
-    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute("x1", offSetFunc(`${p.x}`, -10))
-    line.setAttribute("y1", `${p.y}`)
-    line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
-    line.setAttribute("y2", `${p.y}`);
+	function drawLine(x1, y1, x2, y2) {
+		let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+		line.setAttribute("x1", x1)
+		line.setAttribute("y1", y1)
+		line.setAttribute("x2", x2)
+		line.setAttribute("y2", y2)
+		return line
+	}
 
-    return line;
-  }
-  function drawLine2(p, d) {
-    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
-    line.setAttribute("y1", `${p.y}`)
-    line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
-    line.setAttribute("y2", offSetFunc(`${d.y}`, 60));
-    return line;
-  }
-  function drawLine3(p, d) {
-    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
-    line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
-    line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
-    line.setAttribute("y2", offSetFunc(`${d.y}`, 60))
-    return line;
-  }
-  function drawLine4(p, d) {
-    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
-    line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
-    line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
-    line.setAttribute("y2", `${d.y}`)
-    return line;
-  }
-  function drawLine5(p, d) {
-    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
-    line.setAttribute("y1", `${d.y}`)
-    line.setAttribute("x2", offSetFunc(`${d.x}`, -10))
-    line.setAttribute("y2", `${d.y}`)
-    return line;
-  }
+	window.addEventListener("resize", drawLines());
+	function offSetFunc(obj, num) {
+		let temp = parseInt(obj) + num
+		return temp.toString()
+	}
   </script>
 
 </body>
