@@ -135,8 +135,9 @@
   let tables = document.getElementsByClassName(['table'])
   Array.prototype.forEach.call(tables, node => {
     node.addEventListener("click", e => {
+      // console.log(e);
       if (toggle === false) {
-        showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
+        showRelatingTables(e.target.attributes, e.target)
         toggle = true
       }
       else {
@@ -147,6 +148,7 @@
   })
 
   function showRelatingTables(tableName, tableNode) {
+    tableName = tableNode.parentElement.parentElement.attributes.tableName.nodeValue;
     setNodesOpacity(.5);
 
     let node = document.querySelectorAll(`table[tableName=${tableName}]`)[0].style.opacity = '1';
