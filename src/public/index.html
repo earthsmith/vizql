@@ -86,8 +86,8 @@
     return point;
   };
   let svgs = document.getElementById("svg");
-
-  let data = {{ data }}
+  let refCount = {{ refCount }};
+  let data = {{ data }};
   for (let tablename in data) {
     let table = document.createElement('table')
     table.setAttribute("class", "table")
@@ -100,10 +100,10 @@
     table.appendChild(tr)
     document.querySelector('#data-container').appendChild(table)
 
-    for (var i = 1; i < data[tablename].length; i++) {
+    for (var row in data[tablename]) {
       let tr = document.createElement("tr")
       let td = document.createElement("td")
-      let dataForRow = data[tablename][i]
+      let dataForRow = data[tablename][row]
       if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
       td.innerHTML = dataForRow['content']
       if (dataForRow.relation) {

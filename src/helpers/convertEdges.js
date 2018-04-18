@@ -6,20 +6,16 @@ const Sequelize = require('sequelize');
 
 const convertEdges = (schema) => {
     let edges = {};
-    for (let modelKey in schema.models) {
-        const model = schema.models[modelKey];
-        let references = [];
-        for (let attribute in model.rawAttributes) {
-            let attrObj = model.rawAttributes[attribute];
-            for (let property in attrObj) {
-                if (property === 'references') {
-                    references.push(attrObj[property]['model']);
-                }
+        for (let modelKey in schema.models) {
+            const model = schema.models[modelKey];
+            let count = 0;
+            for (let attribute in model.rawAttributes) {
+                if (model.rawAttributes[attribute]['references']) count ++
             }
+            edges[modelKey] = count;
+            
         }
-        if (references.length) edges[modelKey] = references;
-    }
-    return edges;
-}
+        return edges;
+ }
 
 module.exports = convertEdges;
