@@ -118,15 +118,18 @@
       table.appendChild(tr)
     }
   }
-
+  let toggle = false
   let tables = document.getElementsByClassName(['table'])
   Array.prototype.forEach.call(tables, node => {
-    node.addEventListener("mouseenter", e => {
-      console.log(e.target)
-      showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
-    })
-    node.addEventListener("mouseleave", e => {
-      setNodesOpacity(1);
+    node.addEventListener("click", e => {
+      if(toggle === false){
+        showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
+        toggle = true
+      }
+      else{ 
+        setNodesOpacity(1) 
+        toggle = false
+      }
     })
   })
 
