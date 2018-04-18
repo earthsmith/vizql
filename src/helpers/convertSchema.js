@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 
 const hasRelation = (attr) => {
     if (attr['references']) return attr['references'];
-    return false;
+    else return false;
 }
 
 const convertSchemas = (schema) => {
