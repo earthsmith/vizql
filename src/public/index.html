@@ -100,10 +100,10 @@
     table.appendChild(tr)
     document.querySelector('#data-container').appendChild(table)
 
-    for (let row in data[tablename]) {
+    for (var i = 1; i < data[tablename].length; i++) {
       let tr = document.createElement("tr")
       let td = document.createElement("td")
-      let dataForRow = data[tablename][row]
+      let dataForRow = data[tablename][i]
       if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
       td.innerHTML = dataForRow['content']
       if (dataForRow.relation) {
@@ -142,7 +142,7 @@
       if (relation !== false) document.querySelectorAll(`table[tableName=${relation.model}]`)[0].style.opacity = '1';
     }
   }
-
+  //this forEach loop not functionning with new version of object passed
   function setNodesOpacity(units) {
     Array.prototype.forEach.call(tables, node => {
       node.style.opacity = `${units}`;
