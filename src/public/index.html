@@ -116,10 +116,16 @@
       let td = document.createElement("td")
       let dataForRow = data[tablename][row]
       if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
-      td.innerHTML = dataForRow['content']
+      td.innerHTML = dataForRow['content'].slice(-3) === "yId" ? dataForRow['content'].slice(0,-3) + "iesId" : dataForRow['content'];
       if (dataForRow.relation) {
+        var dataForRelation = "";
+        if(dataForRow['content'].slice(-3) === "yId") {
+          dataForRelation = dataForRow['content'].slice(0,-3) + 'ie';
+        } else {
+          dataForRelation = dataForRow['content'].slice(0, -2);
+        }
         td.innerHTML += '&#128273'
-        td.setAttribute("relation", dataForRow['content'].slice(0, -2))
+        td.setAttribute("relation", dataForRelation);
       }
       tr.appendChild(td)
       //adding second column

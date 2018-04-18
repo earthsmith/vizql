@@ -4,7 +4,9 @@ const Sequelize = require('sequelize');
 //attribute names in an array along with the associated table
 
 const hasRelation = (attr) => {
-    if (attr['references']) return attr['references'];
+    if (attr['references']) {
+        return attr['references'];
+    }
     else return false;
 }
 
