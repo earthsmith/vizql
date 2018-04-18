@@ -13,12 +13,14 @@ const convertSchemas = (schema) => {
     for (let modelKey in schema.models) {
         const model = schema.models[modelKey];
         let columnNames = [];
+        let count = 0;
         for (let attribute in model.rawAttributes) {
             let dataType = model.rawAttributes[attribute]['type'].constructor.key;
-            columnNames.push({ content: attribute, type: dataType, relation: hasRelation(model.rawAttributes[attribute]) });
+            if (hasRelation(model.rawAttributes[attribute])) count ++
+            columnNames.push({ content: attribute, type: dataType, relation: hasRelation(model.rawAttributes[attribute])});
         }
-
-        schemas[modelKey] = columnNames;
+        schemas[modelKey] = [count, ...columnNames];
+        
     }
     return schemas;
 }

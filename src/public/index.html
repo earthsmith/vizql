@@ -15,6 +15,7 @@
 <body>
   <div id='header-bar'>
     <h1>VizQL</h1>
+    <input id="colorInput" style="margin-bottom: 10px" placeholder="#000 table color"></input>
   </div>
   <div id="data-container">
   </div>
@@ -120,37 +121,39 @@
           }
         }
 
-      let tables = document.querySelectorAll('[draw]');
+      // let tables = document.querySelectorAll('[draw]');
 
-        Array.prototype.forEach.call(tables, table => {
-          let tabelName = table.attributes[0].value;
-          let referenced = document.querySelectorAll(`[relation=${tabelName}]`);
-          if (referenced.length > 0) {
-            for (let i = 0; i < referenced.length; i++) {
-              let parent = getCoords(table, "center right");
-              let dependent = getCoords(referenced[i], "center left");
-              drawLine(parent, dependent, svgs);
-            }
-          }
-        })
+      //   Array.prototype.forEach.call(tables, table => {
+      //     let tabelName = table.attributes[0].value;
+      //     let referenced = document.querySelectorAll(`[relation=${tabelName}]`);
+      //     if (referenced.length > 0) {
+      //       for (let i = 0; i < referenced.length; i++) {
+      //         let parent = getCoords(table, "center right");
+      //         let dependent = getCoords(referenced[i], "center left");
+      //         drawLine(parent, dependent, svgs);
+      //       }
+      //     }
+      //   })
 
-        function drawLine (p, d) {
-          let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          line.setAttribute("x1", `${p.x}`)
-          line.setAttribute("y1", `${p.y}`)
-          line.setAttribute("x2", `${d.x}`)
-          line.setAttribute("y2", `${d.y}`);
-          return line;
-        }
+        // function drawLine (p, d) {
+        //   let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        //   line.setAttribute("x1", `${p.x}`)
+        //   line.setAttribute("y1", `${p.y}`)
+        //   line.setAttribute("x2", `${d.x}`)
+        //   line.setAttribute("y2", `${d.y}`);
+        //   return line;
+        // }
 
-  
+  let tables = document.getElementsByClassName('table');
 
   Array.prototype.forEach.call(tables, node => {
+    
     node.addEventListener("mouseenter", e => {
       showRelatingTables(e.target.attributes.tableName.nodeValue, e.target)
     })
+
     node.addEventListener("mouseleave", e => {
-      setNodesOpacity(1);
+      setNodesOpacity(.5);
     })
   })
 
@@ -167,10 +170,38 @@
     }
   }
 
+  //REMOVE THIS FUNCTION 
+  //FIRST CHANGED WHERE CALLED TO THE setNodesProperty function
   function setNodesOpacity (units) {
     Array.prototype.forEach.call(tables, node => {
       node.style.opacity = `${units}`;
     });
+  }
+
+  function setNodesProperty (prop, value) {
+    Array.prototype.forEach.call(tables, node => {
+      node.style[prop] = `${value}`;
+    });
+  }
+
+  const colorInput = document.getElementById('colorInput');
+  colorInput.addEventListener('keydown', e => {
+    if (e.keyCode === 13) {
+      const input = getColorInput();
+      if (typeof input === 'string') setNodesProperty('backgroundColor', input);
+    }
+  })
+
+  function getColorInput () {
+    const str = colorInput.value;
+    if (isHexCode(str)) return str;
+    else alert('Hex code is not properly formatted')
+  }
+
+  function isHexCode (str) {
+    const l = str.length;
+
+    return str[0] === '#' && (l === 4 || l === 7);
   }
     </script>
 
