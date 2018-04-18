@@ -15,6 +15,7 @@
 <body onresize="drawLines()">
   <div id='header-bar'>
     <h1>VizQL</h1>
+    <input id="colorInput" style="margin-bottom: 10px" placeholder="#000 table color"></input>
   </div>
   <div id="data-container">
   </div>
@@ -24,6 +25,7 @@
   </svg>
   <script>
 
+<<<<<<< HEAD
 	const getCoords = (element, position) => {
 		const { top, left, width, height } = element.getBoundingClientRect();
 		let point;
@@ -160,6 +162,252 @@
 		let temp = parseInt(obj) + num
 		return temp.toString()
 	}
+=======
+  const getCoords = (element, position) => {
+    const { top, left, width, height } = element.getBoundingClientRect();
+    let point;
+    switch (position) {
+      case "top left":
+        point = {
+          x: left + window.pageXOffset,
+          y: top + window.pageYOffset
+        };
+        break;
+      case "top center":
+        point = {
+          x: left + width / 2 + window.pageXOffset,
+          y: top + window.pageYOffset
+        };
+        break;
+      case "top right":
+        point = {
+          x: left + width + window.pageXOffset,
+          y: top + window.pageYOffset
+        };
+        break;
+      case "center left":
+        point = {
+          x: left + window.pageXOffset,
+          y: top + height / 2 + window.pageYOffset
+        };
+        break;
+      case "center":
+        point = {
+          x: left + width / 2 + window.pageXOffset,
+          y: top + height / 2 + window.pageYOffset
+        };
+        break;
+      case "center right":
+        point = {
+          x: left + width + window.pageXOffset,
+          y: top + height / 2 + window.pageYOffset
+        };
+        break;
+      case "bottom left":
+        point = {
+          x: left + window.pageXOffset,
+          y: top + height + window.pageYOffset
+        };
+        break;
+      case "bottom center":
+        point = {
+          x: left + width / 2 + window.pageXOffset,
+          y: top + height + window.pageYOffset
+        };
+        break;
+      case "bottom right":
+        point = {
+          x: left + width + window.pageXOffset,
+          y: top + height + window.pageYOffset
+        };
+        break;
+    }
+    return point;
+  };
+  let svgs = document.getElementById("svg");
+  let refCount = {{ refCount }};
+  let data = {{ data }};
+  var count = 1;
+  for (let i = 0; i < refCount.length; i++) {
+    var tablename = refCount[i][0];
+    var tableCount = refCount[i][1];
+    if (refCount[i - 1] !== undefined && tableCount < refCount[i - 1][1] && count !== 1) {
+      for (var counter = 0; counter <= 4 - count; counter++) {
+        let table1 = document.createElement('h1')
+        document.querySelector('#data-container').appendChild(table1)
+      }
+      count = 4;
+    }
+
+    let table = document.createElement('table')
+    table.setAttribute("class", "table")
+    table.setAttribute("tableName", tablename)
+    let th = document.createElement('th')
+    th.setAttribute('colspan', 2)
+    th.innerHTML = tablename;
+    let tr = document.createElement('tr')
+    tr.appendChild(th)
+    table.appendChild(tr)
+    document.querySelector('#data-container').appendChild(table)
+
+    for (var row in data[tablename]) {
+      let tr = document.createElement("tr")
+      let td = document.createElement("td")
+      let dataForRow = data[tablename][row]
+      if (dataForRow['content'] === "id") tr.setAttribute("draw", tablename.slice(0, -1))
+      td.innerHTML = dataForRow['content'].slice(-3) === "yId" ? dataForRow['content'].slice(0,-3) + "iesId" : dataForRow['content'];
+      if (dataForRow.relation) {
+        var dataForRelation = "";
+        if(dataForRow['content'].slice(-3) === "yId") {
+          dataForRelation = dataForRow['content'].slice(0,-3) + 'ie';
+        } else {
+          dataForRelation = dataForRow['content'].slice(0, -2);
+        }
+        td.innerHTML += '&#128273'
+        td.setAttribute("relation", dataForRelation);
+      }
+      tr.appendChild(td)
+      //adding second column
+      let td2 = document.createElement("td")
+      td2.innerHTML = dataForRow['type']
+      tr.appendChild(td2)
+      table.appendChild(tr)
+    }
+    count = count % 4;
+    count++;
+  }
+  let toggle = false
+  let tables = document.getElementsByClassName(['table'])
+  Array.prototype.forEach.call(tables, node => {
+    node.addEventListener("click", e => {
+      // console.log(e);
+      if (toggle === false) {
+        showRelatingTables(e.target.attributes, e.target)
+        toggle = true
+      }
+      else {
+        setNodesOpacity(1)
+        toggle = false
+      }
+    })
+  })
+
+  function showRelatingTables(tableName, tableNode) {
+    tableName = tableNode.parentElement.parentElement.attributes.tableName.nodeValue;
+    setNodesOpacity(.5);
+
+    let node = document.querySelectorAll(`table[tableName=${tableName}]`)[0].style.opacity = '1';
+    let table = data[tableName]
+    for (let row in table) {
+      let obj = table[row];
+
+      let relation = obj.relation;
+      if (relation !== false) document.querySelectorAll(`table[tableName=${relation.model}]`)[0].style.opacity = '1';
+    }
+  }
+  //this forEach loop not functionning with new version of object passed
+  function setNodesOpacity(units) {
+    Array.prototype.forEach.call(tables, node => {
+      node.style.opacity = `${units}`;
+    });
+  }
+
+  function setNodesProperty (prop, value) {
+    Array.prototype.forEach.call(tables, node => {
+      node.style[prop] = `${value}`;
+    });
+  }
+
+  const colorInput = document.getElementById('colorInput');
+  colorInput.addEventListener('keydown', e => {
+    if (e.keyCode === 13) {
+      const input = getColorInput();
+      if (typeof input === 'string') setNodesProperty('backgroundColor', input);
+    }
+  })
+
+  function getColorInput () {
+    const str = colorInput.value;
+    if (isHexCode(str)) return str;
+    else alert('Hex code is not properly formatted')
+  }
+
+  function isHexCode (str) {
+    const l = str.length;
+
+    return str[0] === '#' && (l === 4 || l === 7);
+  }
+    
+  let tableId = document.querySelectorAll('[draw]');
+  function drawLines() {
+    var myNode = document.getElementById("svg");
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+    Array.prototype.forEach.call(tableId, table => {
+      let tableName = table.attributes[0].value;
+      let referenced = document.querySelectorAll(`[relation=${tableName}]`);
+      if (referenced.length > 0) {
+        for (let i = 0; i < referenced.length; i++) {
+          let parent = getCoords(table, "center left");
+          let dependent = getCoords(referenced[i], "center left");
+          svgs.appendChild(drawLine1(parent, dependent));
+          svgs.appendChild(drawLine2(parent, dependent));
+          svgs.appendChild(drawLine3(parent, dependent));
+          svgs.appendChild(drawLine4(parent, dependent));
+          svgs.appendChild(drawLine5(parent, dependent));
+        }
+      }
+    })
+  }
+  window.addEventListener("resize", drawLines());
+  function offSetFunc(obj, num) {
+    let temp = parseInt(obj) + num
+    return temp.toString()
+  }
+
+  function drawLine1(p, d) {
+    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute("x1", offSetFunc(`${p.x}`, -10))
+    line.setAttribute("y1", `${p.y}`)
+    line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
+    line.setAttribute("y2", `${p.y}`);
+
+    return line;
+  }
+  function drawLine2(p, d) {
+    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
+    line.setAttribute("y1", `${p.y}`)
+    line.setAttribute("x2", offSetFunc(`${p.x}`, -30))
+    line.setAttribute("y2", offSetFunc(`${d.y}`, 60));
+    return line;
+  }
+  function drawLine3(p, d) {
+    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute("x1", offSetFunc(`${p.x}`, -30))
+    line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
+    line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
+    line.setAttribute("y2", offSetFunc(`${d.y}`, 60))
+    return line;
+  }
+  function drawLine4(p, d) {
+    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
+    line.setAttribute("y1", offSetFunc(`${d.y}`, 60))
+    line.setAttribute("x2", offSetFunc(`${d.x}`, -30))
+    line.setAttribute("y2", `${d.y}`)
+    return line;
+  }
+  function drawLine5(p, d) {
+    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute("x1", offSetFunc(`${d.x}`, -30))
+    line.setAttribute("y1", `${d.y}`)
+    line.setAttribute("x2", offSetFunc(`${d.x}`, -10))
+    line.setAttribute("y2", `${d.y}`)
+    return line;
+  }
+>>>>>>> 825b3c489c59af856e11256a34a0029b5f6f3b43
   </script>
 
 </body>
