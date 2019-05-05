@@ -4,8 +4,10 @@ const Sequelize = require('sequelize');
 //attribute names in an array along with the associated table
 
 const hasRelation = (attr) => {
-    if (attr['references']) return true;
-    return false;
+    if (attr['references']) {
+        return attr['references'];
+    }
+    else return false;
 }
 
 const convertSchemas = (schema) => {
@@ -15,10 +17,10 @@ const convertSchemas = (schema) => {
         let columnNames = [];
         for (let attribute in model.rawAttributes) {
             let dataType = model.rawAttributes[attribute]['type'].constructor.key;
-            columnNames.push({ content: attribute, type: dataType, relation: hasRelation(model.rawAttributes[attribute]) });
+            columnNames.push({ content: attribute, type: dataType, relation: hasRelation(model.rawAttributes[attribute])});
         }
-
         schemas[modelKey] = columnNames;
+        
     }
     return schemas;
 }

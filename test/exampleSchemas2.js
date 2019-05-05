@@ -17,7 +17,7 @@ const Item = exampleDB2.define('items', {
     description: Sequelize.STRING,
 });
 //SHOPPINGCART MODEL
-const ShoppingCart = exampleDB2.define('cart', {
+const ShoppingCart = exampleDB2.define('carts', {
     numOfItems: Sequelize.INTEGER,
 });
 
